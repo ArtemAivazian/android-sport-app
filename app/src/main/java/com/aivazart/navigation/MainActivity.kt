@@ -65,15 +65,18 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun AppContent() {
+//        val navController = rememberNavController()
+//        val items = getBottomNavigationItems()
+//        var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
+//
+//        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+//            MainScaffold(navController, items, selectedItemIndex) { index ->
+//                selectedItemIndex = index
+//                navController.navigate(items[index].title)
+//            }
+//        }
         val navController = rememberNavController()
         val items = getBottomNavigationItems()
-        var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
-
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-            MainScaffold(navController, items, selectedItemIndex) { index ->
-                selectedItemIndex = index
-                navController.navigate(items[index].title)
-            }
-        }
+        MainScaffold(navController, items)
     }
 }

@@ -1,94 +1,83 @@
 package com.aivazart.navigation.view
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
-@OptIn(ExperimentalFoundationApi::class)
+
+data class TabItem(
+    val title: String,
+    val route: String
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProteinTabs() {
+    val navController = rememberNavController()
     //TABS
     val tabItems = listOf(
-        TabItem(title = "Add"),
-        TabItem(title = "Review")
+        TabItem(title = "Add", route = "add"),
+        TabItem(title = "Review", route = "review")
     )
 
-    var selectedTabIndex by remember {
-        mutableIntStateOf(0)
-    }
-    var pagerState = rememberPagerState {
-        tabItems.size
-    }
+    // Use a state to track the selected tab index
+    var selectedTabIndex by remember { mutableStateOf(0) }
 
-    LaunchedEffect(selectedTabIndex) {
-        pagerState.animateScrollToPage(selectedTabIndex)
-    }
-
-    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
-        if (!pagerState.isScrollInProgress) {
-            selectedTabIndex = pagerState.currentPage
+    // Observe navigation changes and update tab selection
+    LaunchedEffect(navController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val index = tabItems.indexOfFirst { it.route == destination.route }
+            if (index >= 0) selectedTabIndex = index
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        TabRow(selectedTabIndex = selectedTabIndex) {
-            tabItems.forEachIndexed { index, item ->
-                Tab(
-                    selected = index == selectedTabIndex,
-                    onClick = { selectedTabIndex = index },
-                    text = { Text(item.title) }
-                )
-            }
-        }
-
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) { index ->
-            //HOW PAGE LOOKS LIKE
-//            Box(
-//                modifier = Modifier.fillMaxSize(),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(tabItems[index].title)
-//            }
-            when (tabItems[index].title) {
-                "Add" -> AddProductScreen()
-                "Review" -> ReviewScreen()
-                else -> Box(modifier = Modifier.fillMaxSize()) {
-                    Text("Page not found")
+    Scaffold(
+        topBar = {
+            TabRow(selectedTabIndex = selectedTabIndex) {
+                tabItems.forEachIndexed { index, item ->
+                    Tab(
+                        selected = index == selectedTabIndex,
+                        onClick = {
+                            if (navController.currentDestination?.route != item.route) {
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.startDestinationId)
+                                    launchSingleTop = true
+                                }
+                            }
+                        },
+                        text = { Text(item.title) }
+                    )
                 }
             }
         }
+    ) { innerPadding ->
+        NavigationGraph(navController, tabItems, innerPadding)
     }
 }
 
-data class TabItem(
-    val title: String
-)
+@Composable
+fun NavigationGraph(navController: NavHostController, tabItems: List<TabItem>, paddingValues: PaddingValues) {
+    NavHost(
+        navController = navController,
+        startDestination = tabItems.first().route,
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        composable(tabItems[0].route) { AddProductScreen() }
+        composable(tabItems[1].route) { ReviewScreen() }
+    }
+}
