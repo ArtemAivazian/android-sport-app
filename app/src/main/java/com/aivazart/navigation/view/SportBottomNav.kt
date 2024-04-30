@@ -22,12 +22,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.aivazart.navigation.BottomNavigationItem
+import com.aivazart.navigation.viewmodel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScaffold(
     navController: NavHostController,
-    items: List<BottomNavigationItem>
+    items: List<BottomNavigationItem>,
+    productViewModel: ProductViewModel
 ) {
     val selectedItemIndex = items.indexOfFirst { it.title == navController.currentDestination?.route }
     Scaffold(
@@ -63,16 +65,16 @@ fun MainScaffold(
             }
         }
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding)
+        NavigationGraph(navController, innerPadding, productViewModel)
     }
 }
 
 
 @Composable
-fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues) {
+fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues, productViewModel: ProductViewModel) {
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
         composable("Exercise") { ExerciseScreen() }
-        composable("Tracker") { ProteinScreen() }
+        composable("Tracker") { ProteinScreen(productViewModel) }
     }
 }
 

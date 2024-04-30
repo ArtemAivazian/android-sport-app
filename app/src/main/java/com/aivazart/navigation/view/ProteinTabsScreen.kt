@@ -1,5 +1,6 @@
 package com.aivazart.navigation.view
 
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -9,15 +10,22 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.aivazart.navigation.model.ProductDatabase
+import com.aivazart.navigation.viewmodel.ProductViewModel
 
 
 data class TabItem(
@@ -27,7 +35,7 @@ data class TabItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProteinTabs() {
+fun ProteinTabs(productViewModel: ProductViewModel) {
     val navController = rememberNavController()
     //TABS
     val tabItems = listOf(
@@ -66,18 +74,22 @@ fun ProteinTabs() {
             }
         }
     ) { innerPadding ->
-        NavigationGraph(navController, tabItems, innerPadding)
+        NavigationGraph(navController, tabItems, innerPadding, productViewModel)
     }
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController, tabItems: List<TabItem>, paddingValues: PaddingValues) {
+fun NavigationGraph(navController: NavHostController, tabItems: List<TabItem>, paddingValues: PaddingValues, productViewModel: ProductViewModel) {
     NavHost(
         navController = navController,
         startDestination = tabItems.first().route,
         modifier = Modifier.padding(paddingValues)
     ) {
         composable(tabItems[0].route) { AddProductScreen() }
-        composable(tabItems[1].route) { ReviewScreen() }
+        composable(tabItems[1].route) {
+            val state by productViewModel.state.collectAsState()
+            ReviewScreen(state = state, onEvent = productViewModel::onEvent)
+        }
     }
 }
+
