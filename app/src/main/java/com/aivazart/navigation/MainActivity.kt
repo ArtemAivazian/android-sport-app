@@ -34,7 +34,9 @@ import androidx.navigation.compose.rememberNavController
 import com.aivazart.navigation.view.ProteinTabs
 import com.aivazart.navigation.ui.theme.NavigationTheme
 import com.aivazart.navigation.view.ExerciseScreen
+import com.aivazart.navigation.view.MainScaffold
 import com.aivazart.navigation.view.ProteinScreen
+import com.aivazart.navigation.view.getBottomNavigationItems
 
 data class BottomNavigationItem(
     val title: String,
@@ -43,7 +45,7 @@ data class BottomNavigationItem(
 )
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,62 +56,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    val items = listOf(
-                        BottomNavigationItem(
-                            title = "Exercise",
-                            selectedIcon = Icons.Filled.AccessibilityNew,
-                            unselectedIcon = Icons.Outlined.AccessibilityNew
-                        ),
-                        BottomNavigationItem(
-                            title = "Tracker",
-                            selectedIcon = Icons.Filled.TrackChanges,
-                            unselectedIcon = Icons.Outlined.TrackChanges
-                        )
-                    )
-                    var selectedItemIndex by rememberSaveable {
-                        mutableStateOf(0)
-                    }
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Scaffold(
-                            bottomBar = {
-                                NavigationBar {
-                                    items.forEachIndexed { index, item ->
-                                        NavigationBarItem(
-                                            selected = selectedItemIndex == index,
-                                            onClick = {
-                                                selectedItemIndex = index
-                                                 navController.navigate(item.title)
-                                            },
-                                            label = { Text(text = item.title) },
-                                            alwaysShowLabel = false,
-                                            icon = {
-                                                Icon(
-                                                    imageVector = if (index == selectedItemIndex) {
-                                                        item.selectedIcon
-                                                    } else item.unselectedIcon,
-                                                    contentDescription = item.title
-                                                )
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        ) { paddingValues ->
-                            Box(modifier = Modifier
-                                .padding(paddingValues)
-                                .fillMaxSize()) {
-                                NavHost(navController = navController, startDestination = "Exercise") {
-                                    composable("Exercise") { ExerciseScreen() }
-                                    composable("Tracker") { ProteinScreen() }  // Assuming you want to use ProteinScreen for "Tracker"
-                                }
-                            }
-                        }
+                    AppContent()
                     }
                 }
+            }
+    }
+
+
+    @Composable
+    fun AppContent() {
+        val navController = rememberNavController()
+        val items = getBottomNavigationItems()
+        var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
+
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+            MainScaffold(navController, items, selectedItemIndex) { index ->
+                selectedItemIndex = index
+                navController.navigate(items[index].title)
             }
         }
     }

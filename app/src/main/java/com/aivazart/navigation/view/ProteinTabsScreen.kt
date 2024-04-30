@@ -33,22 +33,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 fun ProteinTabs() {
     //TABS
     val tabItems = listOf(
-        TabItem(
-            title = "Home",
-            unselectedIcon = Icons.Outlined.Home,
-            selectedIcon = Icons.Filled.Home
-        ),
-        TabItem(
-            title = "Browse",
-            unselectedIcon = Icons.Outlined.ShoppingCart,
-            selectedIcon = Icons.Filled.ShoppingCart
-        ),
-        TabItem(
-            title = "Account",
-            unselectedIcon = Icons.Outlined.AccountCircle,
-            selectedIcon = Icons.Filled.AccountCircle
-        )
-
+        TabItem(title = "Add"),
+        TabItem(title = "Review")
     )
 
     var selectedTabIndex by remember {
@@ -74,13 +60,7 @@ fun ProteinTabs() {
                 Tab(
                     selected = index == selectedTabIndex,
                     onClick = { selectedTabIndex = index },
-                    text = { Text(item.title) },
-                    icon = {
-                        Icon(
-                            imageVector = if (index == selectedTabIndex) item.selectedIcon else item.unselectedIcon,
-                            contentDescription = item.title
-                        )
-                    }
+                    text = { Text(item.title) }
                 )
             }
         }
@@ -92,18 +72,23 @@ fun ProteinTabs() {
                 .weight(1f)
         ) { index ->
             //HOW PAGE LOOKS LIKE
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(tabItems[index].title)
+//            Box(
+//                modifier = Modifier.fillMaxSize(),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(tabItems[index].title)
+//            }
+            when (tabItems[index].title) {
+                "Add" -> AddProductScreen()
+                "Review" -> ReviewScreen()
+                else -> Box(modifier = Modifier.fillMaxSize()) {
+                    Text("Page not found")
+                }
             }
         }
     }
 }
 
 data class TabItem(
-    val title: String,
-    val unselectedIcon: ImageVector,
-    val selectedIcon: ImageVector
+    val title: String
 )
