@@ -53,6 +53,7 @@ android {
 dependencies {
     val nav_version = "2.5.2"
     val room_version = "2.6.0"
+    val coil_version = "2.1.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -77,4 +78,6 @@ dependencies {
     //Room
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+    //Coil
+    implementation("io.coil-kt:coil-compose:$coil_version")
 }

@@ -43,14 +43,16 @@ class ProductViewModel(
             ProductEvent.SaveProduct -> {
                 val name = state.value.name
                 val protein = state.value.protein
+                val imageUri = state.value.imageUri?.toString()
 
-                if(name.isBlank() || protein.isBlank()){
+                if(name.isBlank() || protein.isBlank() || imageUri.isNullOrBlank()){
                     return
                 }
 
                 val product = Product(
                     name = name,
-                    protein = protein
+                    protein = protein,
+                    imageUri = imageUri
                 )
 
                 viewModelScope.launch {
@@ -59,7 +61,8 @@ class ProductViewModel(
                 _state.update { it.copy(
                     isAddingProduct = false,
                     name = "",
-                    protein = ""
+                    protein = "",
+                    imageUri = null
                 )}
             }
             is ProductEvent.SetProductName -> {
@@ -75,6 +78,12 @@ class ProductViewModel(
             ProductEvent.ShowDialog -> {
                 _state.update { it.copy(
                     isAddingProduct = true
+                ) }
+            }
+
+            is ProductEvent.SetProductImageUri -> {
+                _state.update {it.copy(
+                    imageUri = event.imageUri
                 ) }
             }
         }

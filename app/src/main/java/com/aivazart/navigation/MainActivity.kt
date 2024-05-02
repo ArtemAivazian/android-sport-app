@@ -56,7 +56,8 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             ProductDatabase::class.java,
             "products.db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+        .build()
     }
 
     private val viewModel by viewModels<ProductViewModel>(
