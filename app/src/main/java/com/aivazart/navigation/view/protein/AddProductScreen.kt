@@ -1,4 +1,4 @@
-package com.aivazart.navigation.view
+package com.aivazart.navigation.view.protein
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

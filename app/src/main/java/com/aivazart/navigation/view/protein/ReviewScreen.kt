@@ -1,4 +1,4 @@
-package com.aivazart.navigation.view
+package com.aivazart.navigation.view.protein
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aivazart.navigation.model.ProductEvent
 import com.aivazart.navigation.model.ProductState
+import com.aivazart.navigation.view.protein.AddProductDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

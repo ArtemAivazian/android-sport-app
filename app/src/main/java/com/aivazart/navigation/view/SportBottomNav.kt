@@ -1,8 +1,6 @@
 package com.aivazart.navigation.view
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
@@ -17,11 +15,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.aivazart.navigation.BottomNavigationItem
+import com.aivazart.navigation.view.exercise.ExerciseScreen
+import com.aivazart.navigation.view.exercise.screens.CardioScreen
+import com.aivazart.navigation.view.exercise.screens.StrengthScreen
+import com.aivazart.navigation.view.protein.ProteinScreen
+import com.aivazart.navigation.viewmodel.ExerciseViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +31,9 @@ import com.aivazart.navigation.viewmodel.ProductViewModel
 fun MainScaffold(
     navController: NavHostController,
     items: List<BottomNavigationItem>,
-    productViewModel: ProductViewModel
+    productViewModel: ProductViewModel,
+    exerciseViewModel: ExerciseViewModel
+
 ) {
     val selectedItemIndex = items.indexOfFirst { it.title == navController.currentDestination?.route }
     Scaffold(
@@ -65,16 +69,20 @@ fun MainScaffold(
             }
         }
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, productViewModel)
+        NavigationGraph(navController, innerPadding, productViewModel, exerciseViewModel)
     }
 }
 
 
 @Composable
-fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues, productViewModel: ProductViewModel) {
+fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues, productViewModel: ProductViewModel, exerciseViewModel: ExerciseViewModel) {
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
-        composable("Exercise") { ExerciseScreen() }
+        composable("Exercise") {   ExerciseScreen(exerciseViewModel, navController) }
         composable("Tracker") { ProteinScreen(productViewModel) }
+        composable("Strength") { StrengthScreen() }
+        composable("Cardio") { CardioScreen() }
+        composable("Stretch") { StrengthScreen() }
+
     }
 }
 

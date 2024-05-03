@@ -1,4 +1,4 @@
-package com.aivazart.navigation.view
+package com.aivazart.navigation.view.protein
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

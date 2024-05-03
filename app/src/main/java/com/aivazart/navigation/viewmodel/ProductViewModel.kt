@@ -30,7 +30,7 @@ class ProductViewModel(
     fun onEvent(event: ProductEvent) {
         when(event) {
             is ProductEvent.DeleteProduct -> {
-                //to execute in a corutine is needed to execute in viewModelScope.launch {..}
+                //to execute in a coroutine is needed to execute in viewModelScope.launch {..}
                 viewModelScope.launch {
                     dao.deleteProduct(event.product)
                 }
