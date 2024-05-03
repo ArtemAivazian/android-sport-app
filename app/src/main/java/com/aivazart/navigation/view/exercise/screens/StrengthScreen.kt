@@ -9,12 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StrengthScreen(viewModel: ExerciseViewModel) {
+fun StrengthScreen(viewModel: ExerciseViewModel, navController: NavHostController) {
         Scaffold(
             topBar = {
                 TopAppBar(title = { Text("Exercise Screen") })

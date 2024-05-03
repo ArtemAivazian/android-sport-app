@@ -16,11 +16,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.aivazart.navigation.BottomNavigationItem
+import com.aivazart.navigation.model.Exercise
 import com.aivazart.navigation.view.exercise.ExerciseScreen
 import com.aivazart.navigation.view.exercise.screens.CardioScreen
+import com.aivazart.navigation.view.exercise.screens.ExerciseDetailsScreen
 import com.aivazart.navigation.view.exercise.screens.StrengthScreen
 import com.aivazart.navigation.view.protein.ProteinScreen
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
@@ -79,9 +83,16 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
         composable("Exercise") {   ExerciseScreen(exerciseViewModel, navController) }
         composable("Tracker") { ProteinScreen(productViewModel) }
-        composable("Strength") { StrengthScreen() }
-        composable("Cardio") { CardioScreen() }
-        composable("Stretch") { StrengthScreen() }
+        composable("Strength") { StrengthScreen(exerciseViewModel, navController) }
+        composable("Cardio") { CardioScreen(exerciseViewModel, navController) }
+        composable("Stretch") { StrengthScreen(exerciseViewModel, navController) }
+        composable("ExerciseDetails",
+            arguments = listOf(
+                navArgument("exercise"){
+                    type = NavType.IntType
+                }
+            )
+        ) { ExerciseDetailsScreen(exerciseViewModel, navController) }
 
     }
 }

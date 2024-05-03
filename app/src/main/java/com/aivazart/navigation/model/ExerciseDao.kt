@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
+import com.aivazart.navigation.view.exercise.EXERCISES
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,4 +17,7 @@ interface ExerciseDao {
 
     @Query("SELECT * FROM exercise")
     fun getAllExercises(): Flow<List<Exercise>>
+
+    @Query("SELECT * FROM Exercise WHERE type = :exerciseType")
+    fun getExercisesByType(exerciseType: EXERCISES): Flow<List<Exercise>>
 }
