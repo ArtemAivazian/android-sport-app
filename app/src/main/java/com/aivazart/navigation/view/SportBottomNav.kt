@@ -86,13 +86,16 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
         composable("Strength") { StrengthScreen(exerciseViewModel, navController) }
         composable("Cardio") { CardioScreen(exerciseViewModel, navController) }
         composable("Stretch") { StrengthScreen(exerciseViewModel, navController) }
-        composable("ExerciseDetails",
+        composable("ExerciseDetails" + "/{exercise}",
             arguments = listOf(
                 navArgument("exercise"){
                     type = NavType.IntType
+                    nullable = false
                 }
             )
-        ) { ExerciseDetailsScreen(exerciseViewModel, navController) }
+        ) { entry -> ExerciseDetailsScreen(exercise = entry.arguments!!.getInt("exercise"),
+            viewModel = exerciseViewModel, navController = navController
+        ) }
 
     }
 }

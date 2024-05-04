@@ -5,6 +5,6 @@ import androidx.navigation.NavHostController
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 
 @Composable
-fun ExerciseDetailsScreen(viewModel: ExerciseViewModel, navController: NavHostController){
+fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel, navController: NavHostController){
 
 }
