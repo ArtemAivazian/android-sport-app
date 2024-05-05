@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -26,7 +27,7 @@ fun ExerciseScreen(exerciseViewModel: ExerciseViewModel, navController: NavHostC
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Exercise Screen") })
+            CenterAlignedTopAppBar(title = { Text("Exercise Screen") })
         }
     ) {
         ExerciseList(navController)
