@@ -3,8 +3,10 @@ package com.aivazart.navigation.view.protein
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -18,13 +20,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.aivazart.navigation.model.ProductEvent
 import com.aivazart.navigation.model.ProductState
 import com.aivazart.navigation.view.protein.AddProductDialog
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewScreen(
     state: ProductState,
@@ -53,16 +56,28 @@ fun ReviewScreen(
         ) {
             items(state.products) { product ->
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 ) {
+                    AsyncImage(
+                        model = product.imageUri,
+                        contentDescription = "Product Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(45.dp)
+                    )
+                    Spacer(
+                        modifier = Modifier.size(8.dp)
+                    )
                     Column(
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f).padding(start = 8.dp)
                     ) {
                         Text(
                             text = product.name,
                             fontSize = 20.sp
                         )
-                        Text(text = product.protein, fontSize = 12.sp)
+                        Text(
+                            text = product.protein,
+                            fontSize = 12.sp
+                        )
                     }
                     IconButton(onClick = {
                         onEvent(ProductEvent.DeleteProduct(product))
