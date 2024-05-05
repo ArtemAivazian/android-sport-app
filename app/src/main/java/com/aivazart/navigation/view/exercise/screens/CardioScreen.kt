@@ -28,6 +28,10 @@ import com.aivazart.navigation.viewmodel.ExerciseViewModel
 @Composable
 fun CardioScreen(viewModel: ExerciseViewModel, navController: NavHostController) {
 
+    LaunchedEffect(Unit) {
+        viewModel.getCardioExercises()
+    }
+
     val cardioExercises by viewModel.cardioExercises.collectAsState()
 
     Scaffold(
@@ -60,7 +64,9 @@ fun CardioExercisesList( modifier: Modifier = Modifier,
         loadedCardioExercises = cardioExercises.data
     }
     LazyColumn(
-        modifier = Modifier.fillMaxWidth().padding(60.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(60.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(loadedCardioExercises) { item ->
             CardioListItem(item) {

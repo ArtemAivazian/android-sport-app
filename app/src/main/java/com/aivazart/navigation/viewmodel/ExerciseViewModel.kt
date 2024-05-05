@@ -14,49 +14,20 @@ import kotlinx.coroutines.launch
 
 class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
 
-
-//    private val _allExercises = MutableStateFlow<List<Exercise>>(emptyList())
-//    val allExercises: StateFlow<List<Exercise>> = _allExercises
-//
-//    private val _exercisesByType = MutableStateFlow<List<Exercise>>(emptyList())
-//    val exercisesByType: StateFlow<List<Exercise>> = _exercisesByType
-//
-//    fun getAllExercises() {
-//        viewModelScope.launch {
-//            exerciseDao.getAllExercises().collect { exercises ->
-//                _allExercises.value = exercises
-//            }
-//        }
-//    }
-//
-//    fun getExercisesByType(type:EXERCISES) {
-//        viewModelScope.launch {
-//            exerciseDao.getExercisesByType(type).collect { exercises ->
-//                _exercisesByType.value = exercises
-//            }
-//        }
-//    }
-
-
     private val _cardioExercises = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
     val cardioExercises: StateFlow<RequestState<List<Exercise>>> = _cardioExercises
-    init {
-        getCardioExercises()
-    }
 
-//    fun getCardioExercises() {
-//        viewModelScope.launch {
-//            _cardioExercises.value = RequestState.Loading
-//            try {
-//                val exercises = exerciseDao.getExercisesByType(EXERCISES.CARDIO).first()
-//                _cardioExercises.value = RequestState.Success(exercises)
-//            } catch (e: Exception) {
-//                _cardioExercises.value = RequestState.Error(e)
-//            }
-//        }
+    private val _strengthExercises = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
+    val strengthExercises: StateFlow<RequestState<List<Exercise>>> = _strengthExercises
+
+    private val _stretchExercises = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
+    val stretchExercises: StateFlow<RequestState<List<Exercise>>> = _stretchExercises
+
+//    init {
+//        getCardioExercises()
 //    }
 
-    private fun getCardioExercises() {
+     fun getCardioExercises() {
         _cardioExercises.value = RequestState.Loading
         try {
             viewModelScope.launch {
@@ -66,6 +37,32 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
             }
         } catch (e: Exception) {
             _cardioExercises.value = RequestState.Error(e)
+        }
+    }
+
+    fun getStrengthExercises() {
+        _strengthExercises.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                exerciseDao.getExercisesByType(EXERCISES.STRENGTH).collect {
+                    _strengthExercises.value = RequestState.Success(it)
+                }
+            }
+        } catch (e: Exception) {
+            _strengthExercises.value = RequestState.Error(e)
+        }
+    }
+
+    fun getStretchExercises() {
+        _stretchExercises.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                exerciseDao.getExercisesByType(EXERCISES.CARDIO).collect {
+                    _stretchExercises.value = RequestState.Success(it)
+                }
+            }
+        } catch (e: Exception) {
+            _stretchExercises.value = RequestState.Error(e)
         }
     }
 
