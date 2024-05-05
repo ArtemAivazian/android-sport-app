@@ -85,4 +85,3 @@ fun StretchListItem(item: Exercise, onItemClick: () -> Unit) {
     Text(text = "dgrsdbdzf")
     }
 
-}
