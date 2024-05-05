@@ -20,4 +20,7 @@ interface ExerciseDao {
 
     @Query("SELECT * FROM Exercise WHERE type = :exerciseType")
     fun getExercisesByType(exerciseType: EXERCISES): Flow<List<Exercise>>
+
+    @Query("SELECT * FROM exercise WHERE exerciseId = :id")
+    suspend fun getExerciseById(id: Int): Exercise
 }

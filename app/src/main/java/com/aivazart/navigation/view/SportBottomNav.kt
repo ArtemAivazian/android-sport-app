@@ -94,7 +94,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                 }
             )
         ) { entry -> ExerciseDetailsScreen(exercise = entry.arguments!!.getInt("exercise"),
-            viewModel = exerciseViewModel, navController = navController
+            viewModel = exerciseViewModel
         ) }
 
     }

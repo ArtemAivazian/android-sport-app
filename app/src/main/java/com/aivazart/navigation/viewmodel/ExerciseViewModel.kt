@@ -66,5 +66,10 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
         }
     }
 
+    suspend fun getExercise(id:Int): Exercise {
+        return exerciseDao.getExerciseById(id)
+    }
+
+
 
 }
