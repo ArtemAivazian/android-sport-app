@@ -27,7 +27,6 @@ data class TabItem(
     val route: String
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProteinTabs(productViewModel: ProductViewModel) {
     val navController = rememberNavController()

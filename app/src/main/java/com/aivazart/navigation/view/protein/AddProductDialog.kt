@@ -9,11 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,73 +27,89 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.aivazart.navigation.model.ProductEvent
 import com.aivazart.navigation.model.ProductState
+import com.aivazart.navigation.view.camera.CameraBottomScaffold
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddProductDialog(
     state: ProductState,
     onEvent: (ProductEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AlertDialog(
-        modifier = modifier,
-        onDismissRequest = {
-            onEvent(ProductEvent.HideDialog)
-        },
-        title = { Text(text = "Add product") },
-        text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                TextField(
-                    value = state.name,
-                    onValueChange = {
-                        onEvent(ProductEvent.SetProductName(it))
-                    },
-                    placeholder = {
-                        Text(text = "Name")
-                    }
-                )
-                TextField(
-                    value = state.protein,
-                    onValueChange = {
-                        onEvent(ProductEvent.SetProductProtein(it))
-                    },
-                    placeholder = {
-                        Text(text = "Protein")
-                    }
-                )
-                var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-                val photoPickerLauncher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.PickVisualMedia(),
-                    onResult = { uri ->
-                        selectedImageUri = uri
-                        onEvent(ProductEvent.SetProductImageUri(uri))
-                    }
-                )
-                IconButton(onClick = {
-                    photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+
+    var showCamera by remember { mutableStateOf(false) }
+
+    if (showCamera) {
+        CameraBottomScaffold(onExit = { showCamera = false })
+    } else {
+        AlertDialog(
+            modifier = modifier,
+            onDismissRequest = {
+                onEvent(ProductEvent.HideDialog)
+            },
+            title = { Text(text = "Add product") },
+            text = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    TextField(
+                        value = state.name,
+                        onValueChange = {
+                            onEvent(ProductEvent.SetProductName(it))
+                        },
+                        placeholder = {
+                            Text(text = "Name")
+                        }
                     )
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Upload,
-                        contentDescription = "Upload image"
+                    TextField(
+                        value = state.protein,
+                        onValueChange = {
+                            onEvent(ProductEvent.SetProductProtein(it))
+                        },
+                        placeholder = {
+                            Text(text = "Protein")
+                        }
                     )
+                    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+                    val photoPickerLauncher = rememberLauncherForActivityResult(
+                        contract = ActivityResultContracts.PickVisualMedia(),
+                        onResult = { uri ->
+                            selectedImageUri = uri
+                            onEvent(ProductEvent.SetProductImageUri(uri))
+                        }
+                    )
+                    IconButton(onClick = {
+                        photoPickerLauncher.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Upload,
+                            contentDescription = "Upload image"
+                        )
+                    }
+                    IconButton(onClick = {
+                        showCamera = true
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.PhotoCamera,
+                            contentDescription = "Take Photo"
+                        )
+                    }
+
+                }
+            },
+            confirmButton = {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Button(onClick = {
+                        onEvent(ProductEvent.SaveProduct)
+                    }) {
+                        Text(text = "Save")
+                    }
                 }
             }
-        },
-        confirmButton = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                Button(onClick = {
-                    onEvent(ProductEvent.SaveProduct)
-                }) {
-                    Text(text = "Save")
-                }
-            }
-        }
-    )
+        )
+    }
 }
