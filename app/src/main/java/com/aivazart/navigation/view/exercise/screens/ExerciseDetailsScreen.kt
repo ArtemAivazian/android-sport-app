@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
@@ -31,11 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.aivazart.navigation.R
 import com.aivazart.navigation.model.Exercise
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
@@ -93,22 +96,30 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
             }
             Spacer(modifier = Modifier.height(16.dp))
 
+
         //data
         Row(modifier = Modifier.fillMaxWidth()) {
             loadedExercise?.let { exercise ->
                 when (selectedIndex) {
                     0 -> {
                         Text(text = exercise.description)
+
+                        AsyncImage(
+                            model = "//media/picker/0/com.android.providers.media.photopicker/media/1000000032",
+                            contentDescription = "Exercise Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(45.dp)
+                        )
                     }
 
                     1 -> {
-                        //TODO
-//                            exercise.imageUri?.let { uri ->
-//                            Image(
-//                                painter = painterResource(), // Provide your image resource here
-//                                contentDescription = "Exercise Image"
-//                            )
-//                        }
+
+                        AsyncImage(
+                            model = exercise.imageUri,
+                            contentDescription = "Exercise Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(45.dp)
+                        )
                     }
                 }
             }
