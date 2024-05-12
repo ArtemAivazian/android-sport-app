@@ -98,7 +98,7 @@ fun NavigationGraph(
 ) {
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
         composable("Exercise") {   ExerciseScreen(exerciseViewModel, navController) }
-        composable("Tracker") { ProteinScreen(productViewModel) }
+        composable("Tracker") { ProteinScreen(productViewModel, bodyStatsViewModel) }
         composable("Settings") {
             val state by bodyStatsViewModel.state.collectAsState()
             state?.let { it1 -> BodyStatsScreen(state = it1, onEvent = bodyStatsViewModel::onEvent) }

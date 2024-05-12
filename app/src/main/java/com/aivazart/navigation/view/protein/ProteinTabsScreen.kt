@@ -2,7 +2,6 @@ package com.aivazart.navigation.view.protein
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -19,6 +18,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.aivazart.navigation.viewmodel.BodyStatsViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
 
 
@@ -28,7 +28,10 @@ data class TabItem(
 )
 
 @Composable
-fun ProteinTabs(productViewModel: ProductViewModel) {
+fun ProteinTabs(
+    productViewModel: ProductViewModel,
+    bodyStatsViewModel: BodyStatsViewModel
+) {
     val navController = rememberNavController()
     //TABS
     val tabItems = listOf(
@@ -67,18 +70,35 @@ fun ProteinTabs(productViewModel: ProductViewModel) {
             }
         }
     ) { innerPadding ->
-        NavigationGraph(navController, tabItems, innerPadding, productViewModel)
+        NavigationGraph(
+            navController,
+            tabItems,
+            innerPadding,
+            productViewModel,
+            bodyStatsViewModel
+        )
     }
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController, tabItems: List<TabItem>, paddingValues: PaddingValues, productViewModel: ProductViewModel) {
+fun NavigationGraph(
+    navController: NavHostController,
+    tabItems: List<TabItem>,
+    paddingValues: PaddingValues,
+    productViewModel: ProductViewModel,
+    bodyStatsViewModel: BodyStatsViewModel
+) {
     NavHost(
         navController = navController,
         startDestination = tabItems.first().route,
         modifier = Modifier.padding(paddingValues)
     ) {
-        composable(tabItems[0].route) { AddProductScreen() }
+        composable(tabItems[0].route) {
+            ProgressBarScreen(
+                productViewModel,
+                bodyStatsViewModel
+            )
+        }
         composable(tabItems[1].route) {
             val state by productViewModel.state.collectAsState()
             ReviewScreen(state = state, onEvent = productViewModel::onEvent)

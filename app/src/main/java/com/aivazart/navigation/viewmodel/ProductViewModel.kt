@@ -1,7 +1,5 @@
 package com.aivazart.navigation.viewmodel
 
-import android.app.NotificationManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aivazart.navigation.model.Product
@@ -14,8 +12,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import android.content.Context
-import androidx.core.content.ContextCompat.getSystemService
 
 class ProductViewModel(private val dao: ProductDao): ViewModel() {
 
