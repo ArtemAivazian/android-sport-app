@@ -13,9 +13,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ProductViewModel(
-    private val dao: ProductDao
-): ViewModel() {
+class ProductViewModel(private val dao: ProductDao): ViewModel() {
+
     private val _products = dao.getAllProducts()
 
     private val _state = MutableStateFlow(ProductState())

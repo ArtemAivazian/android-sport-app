@@ -4,16 +4,19 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.TrackChanges
 import androidx.compose.material.icons.outlined.AccessibilityNew
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.TrackChanges
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,22 +24,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.aivazart.navigation.BottomNavigationItem
-import com.aivazart.navigation.model.Exercise
 import com.aivazart.navigation.view.exercise.ExerciseScreen
 import com.aivazart.navigation.view.exercise.screens.CardioScreen
 import com.aivazart.navigation.view.exercise.screens.ExerciseDetailsScreen
 import com.aivazart.navigation.view.exercise.screens.StrengthScreen
 import com.aivazart.navigation.view.protein.ProteinScreen
+import com.aivazart.navigation.view.settings.BodyStatsScreen
+import com.aivazart.navigation.viewmodel.BodyStatsViewModel
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScaffold(
     navController: NavHostController,
     items: List<BottomNavigationItem>,
     productViewModel: ProductViewModel,
-    exerciseViewModel: ExerciseViewModel
+    exerciseViewModel: ExerciseViewModel,
+    bodyStatsViewModel: BodyStatsViewModel
 
 ) {
     val selectedItemIndex = items.indexOfFirst { it.title == navController.currentDestination?.route }
@@ -73,16 +77,32 @@ fun MainScaffold(
             }
         }
     ) { innerPadding ->
-        NavigationGraph(navController, innerPadding, productViewModel, exerciseViewModel)
+        NavigationGraph(
+            navController,
+            innerPadding,
+            productViewModel,
+            exerciseViewModel,
+            bodyStatsViewModel
+        )
     }
 }
 
 
 @Composable
-fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues, productViewModel: ProductViewModel, exerciseViewModel: ExerciseViewModel) {
+fun NavigationGraph(
+    navController: NavHostController,
+    paddingValues: PaddingValues,
+    productViewModel: ProductViewModel,
+    exerciseViewModel: ExerciseViewModel,
+    bodyStatsViewModel: BodyStatsViewModel
+) {
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
         composable("Exercise") {   ExerciseScreen(exerciseViewModel, navController) }
         composable("Tracker") { ProteinScreen(productViewModel) }
+        composable("Settings") {
+            val state by bodyStatsViewModel.state.collectAsState()
+            state?.let { it1 -> BodyStatsScreen(state = it1, onEvent = bodyStatsViewModel::onEvent) }
+        }
         composable("Strength") { StrengthScreen(exerciseViewModel, navController) }
         composable("Cardio") { CardioScreen(exerciseViewModel, navController) }
         composable("Stretch") { StrengthScreen(exerciseViewModel, navController) }
@@ -110,5 +130,11 @@ fun getBottomNavigationItems(): List<BottomNavigationItem> = listOf(
         title = "Tracker",
         selectedIcon = Icons.Filled.TrackChanges,
         unselectedIcon = Icons.Outlined.TrackChanges
-    )
+    ),
+    BottomNavigationItem(
+        title = "Settings",
+        selectedIcon = Icons.Filled.Settings,
+        unselectedIcon = Icons.Outlined.Settings
+    ),
+
 )

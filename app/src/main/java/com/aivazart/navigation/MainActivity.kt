@@ -56,6 +56,7 @@ import com.aivazart.navigation.view.MainScaffold
 import com.aivazart.navigation.view.camera.CameraPreview
 import com.aivazart.navigation.view.camera.PhotoBottomSheetContent
 import com.aivazart.navigation.view.getBottomNavigationItems
+import com.aivazart.navigation.viewmodel.BodyStatsViewModel
 import com.aivazart.navigation.viewmodel.CameraViewModel
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
@@ -92,6 +93,16 @@ class MainActivity : ComponentActivity() {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return ExerciseViewModel(db.exerciseDao) as T
+                }
+            }
+        }
+    )
+
+    private val bodyStatsViewModel by viewModels<BodyStatsViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return BodyStatsViewModel(db.bodyStatsDao) as T
                 }
             }
         }
@@ -141,6 +152,12 @@ class MainActivity : ComponentActivity() {
     fun AppContent() {
         val navController = rememberNavController()
         val items = getBottomNavigationItems()
-        MainScaffold(navController, items, productViewModel, exerciseViewModel  )
+        MainScaffold(
+            navController,
+            items,
+            productViewModel,
+            exerciseViewModel,
+            bodyStatsViewModel
+        )
     }
 }
