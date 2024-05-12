@@ -95,6 +95,8 @@ class MainActivity : ComponentActivity() {
         createNotificationChannel()
         checkAndRequestPermissions()
 
+//        rescheduleNotifications()
+
         setContent {
             NavigationTheme {
                 Surface(
@@ -104,6 +106,14 @@ class MainActivity : ComponentActivity() {
                     AppContent()
                 }
             }
+        }
+    }
+
+    private fun rescheduleNotifications() {
+        val sharedPrefs = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val scheduledTime = sharedPrefs.getLong("scheduledTime", -1)
+        if (scheduledTime != -1L) {
+            AndroidAlarmScheduler.scheduleProteinReminder(applicationContext, scheduledTime)
         }
     }
 

@@ -11,7 +11,7 @@ import com.aivazart.navigation.MainActivity
 import com.aivazart.navigation.R
 
 class AlarmReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(context: Context, intent: Intent?) {
 
         // Intent to restart/open your MainActivity
         val activityIntent = Intent(context, MainActivity::class.java).apply {

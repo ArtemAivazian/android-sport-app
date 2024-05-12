@@ -1,6 +1,7 @@
 package com.aivazart.navigation.view.protein
 
 import android.app.TimePickerDialog
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -59,7 +60,15 @@ fun ProgressBarScreen(
                     set(Calendar.MINUTE, minute)
                     set(Calendar.SECOND, 0)
                 }
-                AndroidAlarmScheduler.scheduleProteinReminder(context, calendar.timeInMillis)
+                val timeInMillis = calendar.timeInMillis
+                AndroidAlarmScheduler.scheduleProteinReminder(context, timeInMillis)
+
+                // Save the scheduled time to SharedPreferences
+                val sharedPrefs = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+                with(sharedPrefs.edit()) {
+                    putLong("scheduledTime", timeInMillis)
+                    apply()
+                }
             }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), false)
         }
 
