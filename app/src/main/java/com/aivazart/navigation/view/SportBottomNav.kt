@@ -64,7 +64,7 @@ fun MainScaffold(
                                     // Optional: Clear back stack when selecting items
                                     restoreState = true
                                     popUpTo(navController.graph.startDestinationId) {
-                                        saveState = true
+                                        saveState = false
                                     }
                                 }
                             }

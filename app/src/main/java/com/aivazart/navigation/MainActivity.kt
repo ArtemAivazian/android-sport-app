@@ -99,10 +99,10 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            NavigationTheme {
+            NavigationTheme(darkTheme = true) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
+                    color = Color.Transparent
                 ) {
                     AppContent()
                 }
