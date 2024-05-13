@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.material.icons.filled.TrackChanges
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Sports
 import androidx.compose.material.icons.outlined.SportsGymnastics
 import androidx.compose.material.icons.outlined.TrackChanges
 import androidx.compose.material3.Icon
@@ -101,6 +103,7 @@ fun NavigationGraph(
 ) {
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
         composable("Exercise") {   ExerciseScreen(exerciseViewModel, navController) }
+        composable("Workouts") {   WorkoutScreen() }
         composable("Tracker") { ProteinScreen(productViewModel, bodyStatsViewModel) }
         composable("Settings") {
             val state by bodyStatsViewModel.state.collectAsState()
@@ -130,6 +133,11 @@ fun getBottomNavigationItems(): List<BottomNavigationItem> = listOf(
         unselectedIcon = Icons.Outlined.AccessibilityNew
     ),
     BottomNavigationItem(
+        title = "Workouts",
+        selectedIcon = Icons.Filled.SportsGymnastics,
+        unselectedIcon = Icons.Outlined.SportsGymnastics
+    ),
+    BottomNavigationItem(
         title = "Tracker",
         selectedIcon = Icons.Filled.TrackChanges,
         unselectedIcon = Icons.Outlined.TrackChanges
@@ -138,6 +146,5 @@ fun getBottomNavigationItems(): List<BottomNavigationItem> = listOf(
         title = "Settings",
         selectedIcon = Icons.Filled.Settings,
         unselectedIcon = Icons.Outlined.Settings
-    ),
-
+    )
 )
