@@ -1,4 +1,4 @@
-package com.aivazart.navigation.view.protein
+package com.aivazart.navigation.view
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -18,6 +18,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.aivazart.navigation.view.protein.ProgressBarScreen
+import com.aivazart.navigation.view.protein.ReviewScreen
 import com.aivazart.navigation.viewmodel.BodyStatsViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
 

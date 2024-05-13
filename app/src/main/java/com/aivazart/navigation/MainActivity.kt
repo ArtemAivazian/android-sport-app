@@ -18,7 +18,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -95,25 +97,16 @@ class MainActivity : ComponentActivity() {
         createNotificationChannel()
         checkAndRequestPermissions()
 
-//        rescheduleNotifications()
 
         setContent {
             NavigationTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.Black
                 ) {
                     AppContent()
                 }
             }
-        }
-    }
-
-    private fun rescheduleNotifications() {
-        val sharedPrefs = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        val scheduledTime = sharedPrefs.getLong("scheduledTime", -1)
-        if (scheduledTime != -1L) {
-            AndroidAlarmScheduler.scheduleProteinReminder(applicationContext, scheduledTime)
         }
     }
 
