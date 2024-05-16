@@ -1,6 +1,6 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.states
 
-import android.net.Uri
+import com.aivazart.navigation.model.Workout
 
 data class WorkoutState(
     val workouts: List<Workout> = emptyList(),

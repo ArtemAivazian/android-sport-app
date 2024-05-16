@@ -1,6 +1,7 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.states
 
 import android.net.Uri
+import com.aivazart.navigation.model.Product
 
 data class ProductState(
     val products: List<Product> = emptyList(),

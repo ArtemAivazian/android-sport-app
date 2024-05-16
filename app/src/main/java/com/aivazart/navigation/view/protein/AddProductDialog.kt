@@ -25,15 +25,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.aivazart.navigation.model.ProductEvent
-import com.aivazart.navigation.model.ProductState
+import com.aivazart.navigation.events.ProductEvent
+import com.aivazart.navigation.states.ProductState
 import com.aivazart.navigation.view.camera.CameraBottomScaffold
 
 @Composable
 fun AddProductDialog(
     state: ProductState,
     onEvent: (ProductEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     var showCamera by remember { mutableStateOf(false) }

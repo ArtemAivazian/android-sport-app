@@ -1,4 +1,4 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.states
 
 data class BodyStatsState(
     val values: Map<String, String> = emptyMap(),

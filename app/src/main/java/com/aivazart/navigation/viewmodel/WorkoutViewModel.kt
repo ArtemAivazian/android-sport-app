@@ -2,22 +2,13 @@ package com.aivazart.navigation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aivazart.navigation.model.Exercise
-import com.aivazart.navigation.model.ExerciseDao
-import com.aivazart.navigation.model.Product
-import com.aivazart.navigation.model.ProductEvent
-import com.aivazart.navigation.model.ProductState
 import com.aivazart.navigation.model.Workout
-import com.aivazart.navigation.model.WorkoutDao
-import com.aivazart.navigation.model.WorkoutEvent
-import com.aivazart.navigation.model.WorkoutState
-import com.aivazart.navigation.view.exercise.EXERCISES
-import com.aivazart.navigation.view.exercise.screens.RequestState
+import com.aivazart.navigation.dao.WorkoutDao
+import com.aivazart.navigation.events.WorkoutEvent
+import com.aivazart.navigation.states.WorkoutState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
@@ -42,7 +33,6 @@ class WorkoutViewModel(private val workoutDao: WorkoutDao) : ViewModel() {
     fun onEvent(event: WorkoutEvent) {
         when(event) {
             is WorkoutEvent.DeleteWorkout -> {
-                //to execute in a coroutine is needed to execute in viewModelScope.launch {..}
                 viewModelScope.launch {
 //                    workoutDao.deleteProduct(event.product)
                 }

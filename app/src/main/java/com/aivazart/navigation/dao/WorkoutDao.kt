@@ -1,8 +1,7 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.dao
 
 import com.aivazart.navigation.model.Workout
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update

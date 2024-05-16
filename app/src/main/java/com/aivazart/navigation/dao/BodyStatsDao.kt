@@ -1,10 +1,10 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import androidx.room.Upsert
+import com.aivazart.navigation.model.BodyStatistics
 import kotlinx.coroutines.flow.Flow
 
 @Dao

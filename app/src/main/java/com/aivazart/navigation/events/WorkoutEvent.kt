@@ -1,4 +1,6 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.events
+
+import com.aivazart.navigation.model.Product
 
 
 sealed interface WorkoutEvent {

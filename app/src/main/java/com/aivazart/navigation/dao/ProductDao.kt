@@ -1,9 +1,10 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
+import com.aivazart.navigation.model.Product
 import kotlinx.coroutines.flow.Flow
 
 @Dao

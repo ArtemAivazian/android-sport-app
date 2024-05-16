@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,9 +23,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.aivazart.navigation.model.ProductEvent
-import com.aivazart.navigation.model.ProductState
-import com.aivazart.navigation.view.protein.AddProductDialog
+import com.aivazart.navigation.events.ProductEvent
+import com.aivazart.navigation.states.ProductState
 
 @Composable
 fun ReviewScreen(

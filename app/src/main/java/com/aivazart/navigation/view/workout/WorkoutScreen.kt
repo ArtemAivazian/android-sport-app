@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -29,12 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.aivazart.navigation.model.ProductEvent
 import com.aivazart.navigation.model.Workout
-import com.aivazart.navigation.model.WorkoutEvent
-import com.aivazart.navigation.model.WorkoutState
-import com.aivazart.navigation.view.exercise.screens.RequestState
-import com.aivazart.navigation.view.protein.AddProductDialog
+import com.aivazart.navigation.events.WorkoutEvent
+import com.aivazart.navigation.states.WorkoutState
 import com.aivazart.navigation.viewmodel.WorkoutViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -94,7 +91,7 @@ fun WorkoutScreen(viewModel: WorkoutViewModel,
 
     )
     if(state.isAddingWorkout) {
-        AddWorkoutDialog(state = state, onEvent = onEvent)
+        AddWorkoutDialog(state = state, onEvent = onEvent, navController = navController)
     }
 }
 
@@ -125,18 +122,13 @@ fun WorkoutExercisesList(
 @Composable
 fun WorkoutListItem(item: Workout, onItemClick: () -> Unit) {
     Row (
-        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)
-    ) {
-        Spacer(
-            modifier = Modifier.size(5.dp)
-        )
-        Column(
-            modifier = Modifier.weight(1f)
-        ){
+        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)) {
             Text(
                 text = item.name,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                modifier = Modifier.weight(1f)
             )
-        }
+        Spacer(modifier = Modifier.width(16.dp))
     }
+
 }

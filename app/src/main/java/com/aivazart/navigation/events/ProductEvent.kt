@@ -1,6 +1,7 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.events
 
 import android.net.Uri
+import com.aivazart.navigation.model.Product
 
 sealed interface ProductEvent {
     object SaveProduct: ProductEvent

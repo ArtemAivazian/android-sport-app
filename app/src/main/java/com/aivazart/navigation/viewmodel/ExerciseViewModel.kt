@@ -3,12 +3,11 @@ package com.aivazart.navigation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aivazart.navigation.model.Exercise
-import com.aivazart.navigation.model.ExerciseDao
+import com.aivazart.navigation.dao.ExerciseDao
 import com.aivazart.navigation.view.exercise.EXERCISES
 import com.aivazart.navigation.view.exercise.screens.RequestState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 
 import kotlinx.coroutines.launch
 
@@ -23,9 +22,24 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
     private val _stretchExercises = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
     val stretchExercises: StateFlow<RequestState<List<Exercise>>> = _stretchExercises
 
+    private val _exercises = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
+    val exercises: StateFlow<RequestState<List<Exercise>>> = _exercises
+
 //    init {
 //        getCardioExercises()
 //    }
+    fun getExercises() {
+        _exercises.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                exerciseDao.getAllExercises().collect {
+                    _exercises.value = RequestState.Success(it)
+                }
+            }
+        } catch (e: Exception) {
+            _exercises.value = RequestState.Error(e)
+        }
+    }
 
      fun getCardioExercises() {
         _cardioExercises.value = RequestState.Loading

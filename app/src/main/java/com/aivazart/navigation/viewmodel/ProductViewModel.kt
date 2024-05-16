@@ -3,9 +3,9 @@ package com.aivazart.navigation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aivazart.navigation.model.Product
-import com.aivazart.navigation.model.ProductDao
-import com.aivazart.navigation.model.ProductEvent
-import com.aivazart.navigation.model.ProductState
+import com.aivazart.navigation.dao.ProductDao
+import com.aivazart.navigation.events.ProductEvent
+import com.aivazart.navigation.states.ProductState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

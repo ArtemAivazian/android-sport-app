@@ -1,4 +1,4 @@
-package com.aivazart.navigation.model
+package com.aivazart.navigation.events
 
 sealed interface BodyStatsEvent {
     data class UpdateStatistic(val key: String, val value: String): BodyStatsEvent
