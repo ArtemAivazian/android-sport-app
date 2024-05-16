@@ -2,6 +2,10 @@ package com.aivazart.navigation.view.exercise.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,7 +35,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -43,7 +50,7 @@ import com.aivazart.navigation.R
 import com.aivazart.navigation.model.Exercise
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "ResourceAsColor")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navController: NavHostController) {
@@ -77,8 +84,9 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
         Column(modifier = Modifier.fillMaxWidth()) {
 
         //segmented button
-            Spacer(modifier = Modifier.height(60.dp))
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(65.dp))
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center) {
                 SingleChoiceSegmentedButtonRow {
                     options.forEachIndexed { index, label ->
                         SegmentedButton(
@@ -87,7 +95,17 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
                                 count = options.size
                             ),
                             onClick = { selectedIndex = index },
-                            selected = index == selectedIndex
+                            selected = index == selectedIndex,
+
+//                            modifier = Modifier.border(
+//                                width = 1.dp,
+//                                color = Color.Green,
+//                                shape = SegmentedButtonDefaults.itemShape(
+//                                    index = index,
+//                                    count = options.size
+//                                )
+//                            )
+
                         ) {
                             Text(label)
                         }
@@ -102,14 +120,27 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
             loadedExercise?.let { exercise ->
                 when (selectedIndex) {
                     0 -> {
-                        Text(text = exercise.description)
-
-                        AsyncImage(
-                            model = "//media/picker/0/com.android.providers.media.photopicker/media/1000000032",
-                            contentDescription = "Exercise Image",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.size(45.dp)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .background(
+                                    color = Color.LightGray,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .border(
+                                    width = 2.dp,
+                                    color = Color.Black,
+                                    shape = RoundedCornerShape(8.dp)
+                                ),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = loadedExercise?.description ?: "",
+                                modifier = Modifier.padding(16.dp),
+                                color = Color.Black
+                            )
+                        }
                     }
 
                     1 -> {

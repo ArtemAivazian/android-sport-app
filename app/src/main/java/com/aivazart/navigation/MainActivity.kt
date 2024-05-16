@@ -35,6 +35,7 @@ import com.aivazart.navigation.view.getBottomNavigationItems
 import com.aivazart.navigation.viewmodel.BodyStatsViewModel
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
+import com.aivazart.navigation.viewmodel.WorkoutViewModel
 
 data class BottomNavigationItem(
     val title: String,
@@ -74,6 +75,16 @@ class MainActivity : ComponentActivity() {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return ExerciseViewModel(db.exerciseDao) as T
+                }
+            }
+        }
+    )
+
+    private val workoutViewModel by viewModels<WorkoutViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return WorkoutViewModel(db.workoutDao) as T
                 }
             }
         }
@@ -179,6 +190,7 @@ class MainActivity : ComponentActivity() {
             items,
             productViewModel,
             exerciseViewModel,
+            workoutViewModel,
             bodyStatsViewModel
         )
     }

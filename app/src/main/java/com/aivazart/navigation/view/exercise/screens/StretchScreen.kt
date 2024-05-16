@@ -100,7 +100,7 @@ fun StretchExercisesList(modifier: Modifier = Modifier,
 @Composable
 fun StretchListItem(item: Exercise, onItemClick: () -> Unit) {
     Row (
-        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 8.dp)
+        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)
     ) {
         AsyncImage(
             model = item.imageUri,

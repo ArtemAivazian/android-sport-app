@@ -100,7 +100,7 @@ fun StrengthExercisesList(modifier: Modifier = Modifier,
 @Composable
 fun StrengthListItem(item: Exercise, onItemClick: () -> Unit) {
     Row (
-        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 8.dp)
+        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)
     ) {
         AsyncImage(
             model = item.imageUri,

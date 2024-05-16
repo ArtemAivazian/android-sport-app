@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.filled.SportsGymnastics
 import androidx.compose.material.icons.filled.TrackChanges
 import androidx.compose.material.icons.outlined.AccessibilityNew
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Sports
 import androidx.compose.material.icons.outlined.SportsGymnastics
 import androidx.compose.material.icons.outlined.TrackChanges
 import androidx.compose.material3.Icon
@@ -32,12 +30,13 @@ import com.aivazart.navigation.view.exercise.ExerciseScreen
 import com.aivazart.navigation.view.exercise.screens.CardioScreen
 import com.aivazart.navigation.view.exercise.screens.ExerciseDetailsScreen
 import com.aivazart.navigation.view.exercise.screens.StrengthScreen
+import com.aivazart.navigation.view.workout.WorkoutScreen
 import com.aivazart.navigation.view.protein.ProteinScreen
 import com.aivazart.navigation.view.settings.BodyStatsScreen
-import com.aivazart.navigation.view.workout.WorkoutScreen
 import com.aivazart.navigation.viewmodel.BodyStatsViewModel
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 import com.aivazart.navigation.viewmodel.ProductViewModel
+import com.aivazart.navigation.viewmodel.WorkoutViewModel
 
 @Composable
 fun MainScaffold(
@@ -45,6 +44,7 @@ fun MainScaffold(
     items: List<BottomNavigationItem>,
     productViewModel: ProductViewModel,
     exerciseViewModel: ExerciseViewModel,
+    workoutViewModel: WorkoutViewModel,
     bodyStatsViewModel: BodyStatsViewModel
 
 ) {
@@ -87,6 +87,7 @@ fun MainScaffold(
             innerPadding,
             productViewModel,
             exerciseViewModel,
+            workoutViewModel,
             bodyStatsViewModel
         )
     }
@@ -99,11 +100,13 @@ fun NavigationGraph(
     paddingValues: PaddingValues,
     productViewModel: ProductViewModel,
     exerciseViewModel: ExerciseViewModel,
+    workoutViewModel: WorkoutViewModel,
     bodyStatsViewModel: BodyStatsViewModel
 ) {
+    val state by workoutViewModel.state.collectAsState()
     NavHost(navController = navController, startDestination = "Exercise", modifier = Modifier.padding(paddingValues)) {
         composable("Exercise") {   ExerciseScreen(exerciseViewModel, navController) }
-        composable("Workouts") {   WorkoutScreen() }
+        composable("Workouts") {   WorkoutScreen(workoutViewModel, navController, state, workoutViewModel::onEvent) }
         composable("Tracker") { ProteinScreen(productViewModel, bodyStatsViewModel) }
         composable("Settings") {
             val state by bodyStatsViewModel.state.collectAsState()

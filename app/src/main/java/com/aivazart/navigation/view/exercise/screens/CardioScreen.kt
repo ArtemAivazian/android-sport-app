@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -25,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -49,7 +52,8 @@ fun CardioScreen(viewModel: ExerciseViewModel, navController: NavHostController)
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                        Text("Cardio", overflow = TextOverflow.Ellipsis)
+                    Text("Cardio", overflow = TextOverflow.Ellipsis)
+
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -58,8 +62,12 @@ fun CardioScreen(viewModel: ExerciseViewModel, navController: NavHostController)
                             contentDescription = "Localized description"
                         )
                     }
-                },)
+                },
+
+            )
+
         },
+
 
         content = { padding ->
             CardioExercisesList(
@@ -88,12 +96,13 @@ fun CardioExercisesList( modifier: Modifier = Modifier,
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(60.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            .padding(80.dp),
+        verticalArrangement = Arrangement.spacedBy(28.dp)) {
         items(loadedCardioExercises) { item ->
             CardioListItem(item) {
                 navController.navigate("ExerciseDetails/${item.exerciseId}")
             }
+
         }
     }
 
@@ -101,24 +110,25 @@ fun CardioExercisesList( modifier: Modifier = Modifier,
 @Composable
 fun CardioListItem(item: Exercise, onItemClick: () -> Unit) {
         Row (
-            Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 8.dp)
+            Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)
         ) {
             AsyncImage(
                 model = item.imageUri,
                 contentDescription = "Product Image",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(45.dp)
+                modifier = Modifier.size(20.dp)
             )
             Spacer(
-                modifier = Modifier.size(8.dp)
+                modifier = Modifier.size(5.dp)
             )
             Column(
-                modifier = Modifier.weight(1f).padding(start = 8.dp)
+                modifier = Modifier.weight(1f)
             ){
                 Text(
                     text = item.name,
                     fontSize = 20.sp
                 )
+
             }
 
 //            Text(text = item.name)
