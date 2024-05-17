@@ -93,6 +93,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:$camerax_version")
     implementation("androidx.camera:camera-video:$camerax_version")
 
+    //Camera NEW
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
     implementation("androidx.camera:camera-view:$camerax_version")
     implementation("androidx.camera:camera-extensions:$camerax_version")
 }

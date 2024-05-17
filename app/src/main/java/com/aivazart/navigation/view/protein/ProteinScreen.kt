@@ -11,7 +11,6 @@ fun ProteinScreen(
     productViewModel: ProductViewModel,
     bodyStatsViewModel: BodyStatsViewModel
 ) {
-    Text(text = "Protein Screen")
     ProteinTabs(
         productViewModel,
         bodyStatsViewModel
