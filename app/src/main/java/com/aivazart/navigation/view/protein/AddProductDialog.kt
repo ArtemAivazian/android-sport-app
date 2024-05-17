@@ -116,14 +116,6 @@ fun AddProductDialog(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Button(onClick = {
-                    // Copy the image to the private directory before saving the product
-                    selectedImageUri?.let { uri ->
-                        ComposeFileProvider.copyUriToPrivateFileDir(
-                            context = context,
-                            sourceUri = uri,
-                            destFileName = "product_image.jpg"
-                        )
-                    }
                     onEvent(ProductEvent.SaveProduct)
                 }) {
                     Text(text = "Save")

@@ -20,26 +20,5 @@ class ComposeFileProvider : FileProvider(R.xml.file_paths) {
             val authority = context.packageName + ".fileprovider"
             return getUriForFile(context, authority, file)
         }
-
-        fun copyUriToPrivateFileDir(context: Context, sourceUri: Uri, destFileName: String) {
-            if (sourceUri.toString().endsWith(destFileName)) return
-            val destFile = File(context.filesDir, "files/$destFileName")
-            var inputStream: InputStream? = null
-            var outputStream: OutputStream? = null
-
-            try {
-                inputStream = context.contentResolver.openInputStream(sourceUri)
-                outputStream = destFile.outputStream()
-
-                val buffer = ByteArray(1024)
-                var length: Int
-                while (inputStream?.read(buffer).also { length = it ?: 0 } != -1) {
-                    outputStream.write(buffer, 0, length)
-                }
-            } finally {
-                inputStream?.close()
-                outputStream?.close()
-            }
-        }
     }
 }
