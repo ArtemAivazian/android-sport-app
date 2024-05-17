@@ -113,7 +113,7 @@ fun WorkoutExercisesList(
         verticalArrangement = Arrangement.spacedBy(28.dp)) {
         items(workouts) { item ->
             WorkoutListItem(item) {
-//                navController.navigate("ExerciseDetails/${item.exerciseId}")
+                navController.navigate("DisplayExercisesScreen/${item.workoutId}")
             }
         }
     }

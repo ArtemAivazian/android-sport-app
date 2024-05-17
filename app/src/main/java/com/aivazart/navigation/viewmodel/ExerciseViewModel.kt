@@ -25,6 +25,9 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
     private val _exercises = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
     val exercises: StateFlow<RequestState<List<Exercise>>> = _exercises
 
+    private val _exercisesForWorkout = MutableStateFlow<RequestState<List<Exercise>>>(RequestState.Idle)
+    val exercisesForWorkout: StateFlow<RequestState<List<Exercise>>> = _exercisesForWorkout
+
 //    init {
 //        getCardioExercises()
 //    }
@@ -67,6 +70,20 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
         }
     }
 
+    fun getExercisesForWorkout(ids: List<Int>) {
+        _exercisesForWorkout.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                exerciseDao.getExercisesByIds(ids).collect{
+                    _exercisesForWorkout.value = RequestState.Success(it)
+                }
+            }
+        } catch (e: Exception) {
+            _exercisesForWorkout.value = RequestState.Error(e)
+        }
+    }
+
+
     fun getStretchExercises() {
         _stretchExercises.value = RequestState.Loading
         try {
@@ -82,6 +99,15 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao) : ViewModel() {
 
     suspend fun getExercise(id:Int): Exercise {
         return exerciseDao.getExerciseById(id)
+    }
+
+    suspend fun getExercisesByIds(ids: List<Int>): List<Exercise> {
+        val exercises = mutableListOf<Exercise>()
+        for (id in ids) {
+            val exercise = exerciseDao.getExerciseById(id)
+            exercises.add(exercise)
+        }
+        return exercises
     }
 
 

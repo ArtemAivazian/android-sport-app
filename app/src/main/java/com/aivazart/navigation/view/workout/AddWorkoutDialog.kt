@@ -10,6 +10,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,7 +28,7 @@ fun AddWorkoutDialog(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-
+    var workoutName by remember { mutableStateOf("") }
         AlertDialog(
             modifier = modifier,
             onDismissRequest = {
@@ -38,6 +42,7 @@ fun AddWorkoutDialog(
                     TextField(
                         value = state.name,
                         onValueChange = {
+                            workoutName = it
                             onEvent(WorkoutEvent.SetWorkoutName(it))
                         },
                         placeholder = {
@@ -53,7 +58,7 @@ fun AddWorkoutDialog(
                 ) {
                     Button(onClick = {
                         onEvent(WorkoutEvent.SaveWorkout)
-                        navController.navigate("ChooseExercisesScreen")
+                        navController.navigate("ChooseExercisesScreen/${workoutName}")
                     }) {
                         Text(text = "Add")
                     }

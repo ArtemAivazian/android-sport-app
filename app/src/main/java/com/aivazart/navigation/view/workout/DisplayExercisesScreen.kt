@@ -1,10 +1,10 @@
 package com.aivazart.navigation.view.workout
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.lifecycle.lifecycleScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,12 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,126 +37,108 @@ import com.aivazart.navigation.model.Exercise
 import com.aivazart.navigation.view.exercise.screens.RequestState
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 import com.aivazart.navigation.viewmodel.WorkoutViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChooseExercisesScreen(name:String,
-                          exerciseViewModel: ExerciseViewModel,
-                          workoutViewModel: WorkoutViewModel,
-                          navController: NavHostController) {
+fun DisplayExerciseScreen(id:Int, exerciseViewModel: ExerciseViewModel,workoutViewModel: WorkoutViewModel, navController: NavHostController) {
 
     LaunchedEffect(Unit) {
-        exerciseViewModel.getExercises()
+        val workout = workoutViewModel.getWorkout(id)
+        exerciseViewModel.getExercisesForWorkout(workout.listOfExercisesIds)
     }
 
-    val exercises by exerciseViewModel.exercises.collectAsState()
-    val selectedExerciseIds = remember { mutableSetOf<Int>() }
-
+    val exercises by exerciseViewModel.exercisesForWorkout.collectAsState()
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text("Exercises", overflow = TextOverflow.Ellipsis)
-                },
 
-                actions = {
-                    IconButton(onClick = {
-                        val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-                        coroutineScope.launch {
-                            val id = workoutViewModel.getWorkoutIdByName(name)
-                            workoutViewModel.updateExerciseIdList(id, selectedExerciseIds.toList())
-                            navController.navigate("Workouts")
-                        }
-                    }) {
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Choice"
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description"
                         )
                     }
-                }
+                },
+
                 )
+
         },
 
 
         content = { padding ->
-            ExercisesList(
+            CardioExercisesList(
                 modifier = Modifier.padding(
                     top = padding.calculateTopPadding(),
                     bottom = padding.calculateBottomPadding()
                 ),
                 exercises = exercises,
-                navController = navController,
-                selectedExerciseIds = selectedExerciseIds
+                navController
             )
         }
     )
+
 }
 
 @Composable
-fun ExercisesList(modifier: Modifier = Modifier,
-                        exercises: RequestState<List<Exercise>>,
-                        navController: NavHostController,
-                        selectedExerciseIds: MutableSet<Int>) {
+fun CardioExercisesList(
+    modifier: Modifier = Modifier,
+    exercises: RequestState<List<Exercise>>,
+    navController: NavHostController) {
 
     var loadedExercises: List<Exercise> = emptyList()
-
 
     if (exercises is RequestState.Success) {
         loadedExercises = exercises.data
     }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(80.dp),
         verticalArrangement = Arrangement.spacedBy(28.dp)) {
         items(loadedExercises) { item ->
-            ListItem(item, selectedExerciseIds) {
-//                navController.navigate("DisplayExercisesScreen/${item.exerciseId}")
+            CardioListItem(item) {
+                navController.navigate("ExerciseDetails/${item.exerciseId}")
             }
 
         }
     }
+
 }
 @Composable
-fun ListItem(item: Exercise, selectedExerciseIds: MutableSet<Int>, onItemClick: () -> Unit) {
-    var checked by remember { mutableStateOf(false) }
+fun CardioListItem(item: Exercise, onItemClick: () -> Unit) {
     Row (
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)
+        Modifier
+            .clickable(onClick = onItemClick)
+            .fillMaxWidth()
+            .padding(horizontal = 25.dp)
     ) {
         AsyncImage(
             model = item.imageUri,
-            contentDescription = "Exercise Image",
+            contentDescription = "Product Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier.size(20.dp)
         )
         Spacer(
             modifier = Modifier.size(5.dp)
         )
-
+        Column(
+            modifier = Modifier.weight(1f)
+        ){
             Text(
                 text = item.name,
-                fontSize = 20.sp,
-                modifier = Modifier.weight(1f)
+                fontSize = 20.sp
             )
-        Spacer(
-            modifier = Modifier.size(5.dp)
-        )
 
-        Checkbox(
-            checked = checked,
-            onCheckedChange = {checked = it
-                if (checked) {
-                    selectedExerciseIds.add(item.exerciseId)
-                } else {
-                    selectedExerciseIds.remove(item.exerciseId)
-                }
-            }
-        )
+        }
+
+//            Text(text = item.name)
     }
+
 }

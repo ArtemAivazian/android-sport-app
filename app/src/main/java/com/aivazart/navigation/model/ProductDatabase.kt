@@ -10,7 +10,7 @@ import com.aivazart.navigation.dao.WorkoutDao
 
 @Database(
     entities = [Product::class,Exercise::class, BodyStatistics::class, Workout::class],
-    version = 10
+    version = 11
 )
 @TypeConverters(WorkoutConverter::class)
 abstract class ProductDatabase: RoomDatabase() {

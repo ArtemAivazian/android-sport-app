@@ -98,4 +98,11 @@ class WorkoutViewModel(private val workoutDao: WorkoutDao) : ViewModel() {
         return workoutDao.getWorkoutById(id)
     }
 
+    suspend fun updateExerciseIdList(workoutId: Int, list: List<Int>){
+        workoutDao.addIdsToList(workoutId, list)
+    }
+    suspend fun getWorkoutIdByName(name: String): Int {
+        return workoutDao.getWorkoutIdByName(name)
+    }
+
 }

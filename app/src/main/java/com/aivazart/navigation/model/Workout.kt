@@ -1,10 +1,11 @@
 package com.aivazart.navigation.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 
-@Entity
+@Entity(indices = [Index(value = ["name"], unique = true)])
 data class Workout(
     @PrimaryKey(autoGenerate = true)
     val workoutId: Int = 0,

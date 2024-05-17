@@ -22,12 +22,16 @@ interface WorkoutDao {
     @Query("SELECT * FROM Workout WHERE workoutId = :id")
     suspend fun getWorkoutById(id: Int): Workout
 
+    @Query("SELECT workoutId FROM Workout WHERE name = :name")
+    suspend fun getWorkoutIdByName(name: String): Int
+
+
     @Transaction
-    suspend fun addIdToList(workoutId: Int, newId: Int) {
+    suspend fun addIdsToList(workoutId: Int, newIds: List<Int>) {
         val workout = getWorkoutById(workoutId)
 
         val updatedList = workout.listOfExercisesIds.toMutableList().apply {
-            add(newId)
+            addAll(newIds)
         }
 
         update(workout.copy(listOfExercisesIds = updatedList))
