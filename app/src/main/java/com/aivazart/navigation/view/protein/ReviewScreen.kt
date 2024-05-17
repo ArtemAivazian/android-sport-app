@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -27,7 +28,11 @@ import coil.compose.AsyncImage
 import com.aivazart.navigation.model.ProductEvent
 import com.aivazart.navigation.model.ProductState
 import com.aivazart.navigation.view.protein.AddProductDialog
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ReviewScreen(
     state: ProductState,
@@ -58,12 +63,20 @@ fun ReviewScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 ) {
-                    AsyncImage(
+//                    AsyncImage(
+//                        model = product.imageUri,
+//                        contentDescription = "Product Image",
+//                        contentScale = ContentScale.Crop,
+//                        modifier = Modifier.size(45.dp)
+//                    )
+                    GlideImage(
                         model = product.imageUri,
                         contentDescription = "Product Image",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.size(45.dp)
-                    )
+                    ) {
+                        it.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                    }
                     Spacer(
                         modifier = Modifier.size(8.dp)
                     )

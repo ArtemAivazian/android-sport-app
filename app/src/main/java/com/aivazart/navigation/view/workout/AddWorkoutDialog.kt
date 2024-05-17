@@ -30,7 +30,6 @@ import com.aivazart.navigation.model.ProductEvent
 import com.aivazart.navigation.model.ProductState
 import com.aivazart.navigation.model.WorkoutEvent
 import com.aivazart.navigation.model.WorkoutState
-import com.aivazart.navigation.view.camera.CameraBottomScaffold
 
 @Composable
 fun AddWorkoutDialog(
