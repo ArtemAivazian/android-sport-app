@@ -45,8 +45,8 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao, private val contex
 
 
     private fun initializeExercises(context: Context): List<Exercise> {
-        val runningBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.kyle)
-        val cyclingBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.kyle)
+        val runningBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.runnning)
+        val cyclingBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.cycling)
 
         val runningFile = ComposeFileProvider.saveImageToDirectory(context, runningBitmap, "running_image")
         val cyclingFile = ComposeFileProvider.saveImageToDirectory(context, cyclingBitmap, "cycling_image")
@@ -54,13 +54,33 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao, private val contex
         val runningUri = runningFile?.let { ComposeFileProvider.getImageUri(context, "running_image").toString() }
         val cyclingUri = cyclingFile?.let { ComposeFileProvider.getImageUri(context, "cycling_image").toString() }
 
+        val PushUpBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pushups)
+        val PullUpBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pullups)
+
+        val PushUpFile = ComposeFileProvider.saveImageToDirectory(context, PushUpBitmap, "pushUp_image")
+        val PullUpFile = ComposeFileProvider.saveImageToDirectory(context, PullUpBitmap, "pullUp_image")
+
+        val PushUpUri = PushUpFile?.let { ComposeFileProvider.getImageUri(context, "pushUp_image").toString() }
+        val PullUpUri = PullUpFile?.let { ComposeFileProvider.getImageUri(context, "pullUp_image").toString() }
+
+        val YogaBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.yoga)
+        val StretchingBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.stretching)
+
+        val YogaFile = ComposeFileProvider.saveImageToDirectory(context, YogaBitmap, "yoga_image")
+        val StretchingFile = ComposeFileProvider.saveImageToDirectory(context, StretchingBitmap, "stretching_image")
+
+        val YogaUri = YogaFile?.let { ComposeFileProvider.getImageUri(context, "yoga_image").toString() }
+        val StretchingUri = StretchingFile?.let { ComposeFileProvider.getImageUri(context, "stretching_image").toString() }
+
+
+
         return listOf(
             Exercise(name = "Running", description = "Cardio exercise", type = EXERCISES.CARDIO, imageUri = runningUri),
             Exercise(name = "Cycling", description = "Cardio exercise", type = EXERCISES.CARDIO, imageUri = cyclingUri),
-            Exercise(name = "Push Up", description = "Strength exercise", type = EXERCISES.STRENGTH),
-            Exercise(name = "Pull Up", description = "Strength exercise", type = EXERCISES.STRENGTH),
-            Exercise(name = "Yoga", description = "Stretch exercise", type = EXERCISES.STRETCH),
-            Exercise(name = "Stretching", description = "Stretch exercise", type = EXERCISES.STRETCH)
+            Exercise(name = "Push Up", description = "Strength exercise", type = EXERCISES.STRENGTH, imageUri = PushUpUri),
+            Exercise(name = "Pull Up", description = "Strength exercise", type = EXERCISES.STRENGTH, imageUri = PullUpUri),
+            Exercise(name = "Yoga", description = "Stretch exercise", type = EXERCISES.STRETCH, imageUri = YogaUri),
+            Exercise(name = "Stretching", description = "Stretch exercise", type = EXERCISES.STRETCH, imageUri = StretchingUri)
         )
     }
 
