@@ -31,7 +31,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, AndroidAlarmScheduler.PROTEIN_CHANNEL_ID)
             .setContentTitle("Protein Intake Reminder")
             .setContentText("It's time to take your protein!")
-            .setSmallIcon(R.drawable.baseline_baby_changing_station_24)
+            .setSmallIcon(R.drawable.baseline_track_changes_24)
             .setContentIntent(pendingIntent) // Set the intent that will fire when the user taps the notification.
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true) // Automatically remove the notification when tapped.
