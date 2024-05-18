@@ -101,17 +101,18 @@ fun WorkoutExercisesList(
             .fillMaxSize()
             .background(Color.Black),
         verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        item { Spacer(modifier = Modifier.height(60.dp)) }
         items(workouts) { item ->
             WorkoutListItem(item) {
                 navController.navigate("DisplayExercisesScreen/${item.workoutId}")
             }
         }
     }
-
 }
 @Composable
 fun WorkoutListItem(item: Workout, onItemClick: () -> Unit) {
     Column(
+
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF141218))
@@ -129,6 +130,7 @@ fun WorkoutListItem(item: Workout, onItemClick: () -> Unit) {
             Text(
                 text = item.name,
                 fontSize = 20.sp,
+                color = Color.White,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(16.dp))
