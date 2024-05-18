@@ -29,6 +29,7 @@ fun AddWorkoutDialog(
     navController: NavHostController
 ) {
     var workoutName by remember { mutableStateOf("") }
+
         AlertDialog(
             modifier = modifier,
             onDismissRequest = {
@@ -65,5 +66,4 @@ fun AddWorkoutDialog(
                 }
             }
         )
-
 }

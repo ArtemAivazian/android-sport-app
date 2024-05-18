@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,11 +42,6 @@ fun WorkoutScreen(viewModel: WorkoutViewModel,
                   navController: NavHostController,
                   state: WorkoutState,
                   onEvent: (WorkoutEvent) -> Unit) {
-
-//    LaunchedEffect(Unit) {
-//        viewModel.getWorkouts()
-//    }
-//    val workouts by viewModel.workouts.collectAsState()
 
     Scaffold(
         topBar = {
@@ -88,7 +84,6 @@ fun WorkoutScreen(viewModel: WorkoutViewModel,
                 )
             }
     },
-
     )
     if(state.isAddingWorkout) {
         AddWorkoutDialog(state = state, onEvent = onEvent, navController = navController)
@@ -101,16 +96,11 @@ fun WorkoutExercisesList(
     workouts: List<Workout>,
     navController: NavHostController) {
 
-    var loadedWorkouts: List<Workout> = emptyList()
-
-//    if (workouts is RequestState.Success) {
-//        loadedWorkouts = workouts.data
-//    }
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(80.dp),
-        verticalArrangement = Arrangement.spacedBy(28.dp)) {
+            .fillMaxSize()
+            .background(Color.Black),
+        verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(workouts) { item ->
             WorkoutListItem(item) {
                 navController.navigate("DisplayExercisesScreen/${item.workoutId}")
@@ -121,14 +111,28 @@ fun WorkoutExercisesList(
 }
 @Composable
 fun WorkoutListItem(item: Workout, onItemClick: () -> Unit) {
-    Row (
-        Modifier.clickable(onClick = onItemClick).fillMaxWidth().padding(horizontal = 25.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF141218))
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+    ){
+        Row (
+            modifier = Modifier
+                .clickable(onClick = onItemClick)
+                .fillMaxWidth()
+                .background(Color(0xFF141218))
+                .padding(vertical = 4.dp, horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 text = item.name,
                 fontSize = 20.sp,
                 modifier = Modifier.weight(1f)
             )
-        Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(16.dp))
+        }
     }
 
 }

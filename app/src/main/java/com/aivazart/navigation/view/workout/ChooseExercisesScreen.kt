@@ -2,9 +2,7 @@ package com.aivazart.navigation.view.workout
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.lifecycle.lifecycleScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,11 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,10 +52,8 @@ fun ChooseExercisesScreen(name:String,
     LaunchedEffect(Unit) {
         exerciseViewModel.getExercises()
     }
-
     val exercises by exerciseViewModel.exercises.collectAsState()
     val selectedExerciseIds = remember { mutableSetOf<Int>() }
-
 
     Scaffold(
         topBar = {
@@ -87,8 +79,6 @@ fun ChooseExercisesScreen(name:String,
                 }
                 )
         },
-
-
         content = { padding ->
             ExercisesList(
                 modifier = Modifier.padding(
@@ -111,7 +101,6 @@ fun ExercisesList(modifier: Modifier = Modifier,
 
     var loadedExercises: List<Exercise> = emptyList()
 
-
     if (exercises is RequestState.Success) {
         loadedExercises = exercises.data
     }
@@ -121,15 +110,13 @@ fun ExercisesList(modifier: Modifier = Modifier,
             .padding(80.dp),
         verticalArrangement = Arrangement.spacedBy(28.dp)) {
         items(loadedExercises) { item ->
-            ListItem(item, selectedExerciseIds) {
-//                navController.navigate("DisplayExercisesScreen/${item.exerciseId}")
-            }
-
+            ListItem(item, selectedExerciseIds) {}
         }
     }
 }
 @Composable
 fun ListItem(item: Exercise, selectedExerciseIds: MutableSet<Int>, onItemClick: () -> Unit) {
+
     var checked by remember { mutableStateOf(false) }
     Row (
         verticalAlignment = Alignment.CenterVertically,
@@ -144,16 +131,14 @@ fun ListItem(item: Exercise, selectedExerciseIds: MutableSet<Int>, onItemClick: 
         Spacer(
             modifier = Modifier.size(5.dp)
         )
-
-            Text(
-                text = item.name,
-                fontSize = 20.sp,
-                modifier = Modifier.weight(1f)
-            )
+        Text(
+            text = item.name,
+            fontSize = 20.sp,
+            modifier = Modifier.weight(1f)
+        )
         Spacer(
             modifier = Modifier.size(5.dp)
         )
-
         Checkbox(
             checked = checked,
             onCheckedChange = {checked = it

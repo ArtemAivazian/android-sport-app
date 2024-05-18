@@ -33,6 +33,7 @@ import com.aivazart.navigation.view.exercise.ExerciseScreen
 import com.aivazart.navigation.view.exercise.screens.CardioScreen
 import com.aivazart.navigation.view.exercise.screens.ExerciseDetailsScreen
 import com.aivazart.navigation.view.exercise.screens.StrengthScreen
+import com.aivazart.navigation.view.exercise.screens.StretchScreen
 import com.aivazart.navigation.view.workout.WorkoutScreen
 import com.aivazart.navigation.view.protein.ProteinScreen
 import com.aivazart.navigation.view.settings.BodyStatsScreen
@@ -119,7 +120,7 @@ fun NavigationGraph(
         }
         composable("Strength") { StrengthScreen(exerciseViewModel, navController) }
         composable("Cardio") { CardioScreen(exerciseViewModel, navController) }
-        composable("Stretch") { StrengthScreen(exerciseViewModel, navController) }
+        composable("Stretch") { StretchScreen(exerciseViewModel, navController) }
         composable("ChooseExercisesScreen" + "/{name}",
             arguments = listOf(
                 navArgument("name"){

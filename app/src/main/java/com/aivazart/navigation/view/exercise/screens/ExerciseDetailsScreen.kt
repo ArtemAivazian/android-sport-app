@@ -1,7 +1,6 @@
 package com.aivazart.navigation.view.exercise.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,18 +15,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,15 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.aivazart.navigation.R
 import com.aivazart.navigation.model.Exercise
 import com.aivazart.navigation.viewmodel.ExerciseViewModel
 
@@ -59,7 +51,6 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
     LaunchedEffect(Unit) {
         loadedExercise = viewModel.getExercise(exercise)
     }
-
     var selectedIndex by remember { mutableStateOf(0) }
     val options = listOf("Description", "Image")
 
@@ -84,7 +75,7 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
         Column(modifier = Modifier.fillMaxWidth()) {
 
         //segmented button
-            Spacer(modifier = Modifier.height(65.dp))
+            Spacer(modifier = Modifier.height(70.dp))
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center) {
                 SingleChoiceSegmentedButtonRow {
@@ -96,24 +87,15 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
                             ),
                             onClick = { selectedIndex = index },
                             selected = index == selectedIndex,
-
-//                            modifier = Modifier.border(
-//                                width = 1.dp,
-//                                color = Color.Green,
-//                                shape = SegmentedButtonDefaults.itemShape(
-//                                    index = index,
-//                                    count = options.size
-//                                )
-//                            )
-
                         ) {
-                            Text(label)
+                            Text(
+                                fontSize = 20.sp,
+                                text = label)
                         }
                     }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-
 
         //data
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -142,15 +124,22 @@ fun ExerciseDetailsScreen(exercise: Int, viewModel: ExerciseViewModel,  navContr
                             )
                         }
                     }
-
                     1 -> {
 
-                        AsyncImage(
-                            model = exercise.imageUri,
-                            contentDescription = "Exercise Image",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.size(45.dp)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(380.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AsyncImage(
+                                model = exercise.imageUri,
+                                contentDescription = "Exercise Image",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.size(300.dp)
+                            )
+                        }
+
                     }
                 }
             }
