@@ -42,8 +42,6 @@ fun AddProductDialog(
     onEvent: (ProductEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-    var showCamera by remember { mutableStateOf(false) }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
     val newTempUri = rememberSaveable { mutableStateOf<Uri?>(null) }
@@ -99,15 +97,6 @@ fun AddProductDialog(
                             cameraLauncherFullImage.launch(newTempUri.value)
                         }
                 )
-                IconButton(onClick = {
-                    showCamera = true
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.PhotoCamera,
-                        contentDescription = "Take Photo"
-                    )
-                }
-
             }
         },
         confirmButton = {
