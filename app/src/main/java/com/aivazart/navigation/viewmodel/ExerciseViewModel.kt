@@ -43,32 +43,13 @@ class ExerciseViewModel(private val exerciseDao: ExerciseDao, private val contex
         }
     }
 
-    private fun saveImageToDirectory(context: Context, bitmap: Bitmap, fileName: String): File? {
-        val directory = File(context.filesDir, "images")
-        if (!directory.exists()) {
-            directory.mkdirs()
-        }
-        val file = File(directory, "$fileName.jpg")
-        var fos: FileOutputStream? = null
-        return try {
-            fos = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-            file
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        } finally {
-            fos?.close()
-        }
-    }
-
 
     private fun initializeExercises(context: Context): List<Exercise> {
         val runningBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.kyle)
         val cyclingBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.kyle)
 
-        val runningFile = saveImageToDirectory(context, runningBitmap, "running_image")
-        val cyclingFile = saveImageToDirectory(context, cyclingBitmap, "cycling_image")
+        val runningFile = ComposeFileProvider.saveImageToDirectory(context, runningBitmap, "running_image")
+        val cyclingFile = ComposeFileProvider.saveImageToDirectory(context, cyclingBitmap, "cycling_image")
 
         val runningUri = runningFile?.let { ComposeFileProvider.getImageUri(context, "running_image").toString() }
         val cyclingUri = cyclingFile?.let { ComposeFileProvider.getImageUri(context, "cycling_image").toString() }
