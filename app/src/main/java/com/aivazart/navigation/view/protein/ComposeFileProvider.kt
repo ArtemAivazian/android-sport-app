@@ -18,7 +18,12 @@ class ComposeFileProvider : FileProvider(R.xml.file_paths) {
 
         fun getUriForFile(context: Context, file: File): Uri {
             val authority = context.packageName + ".fileprovider"
-            return getUriForFile(context, authority, file)
+            return FileProvider.getUriForFile(context, authority, file)
+        }
+
+        fun getImageUri(context: Context, fileName: String): Uri {
+            val file = File(context.filesDir, "images/$fileName.jpg")
+            return getUriForFile(context, file)
         }
     }
 }

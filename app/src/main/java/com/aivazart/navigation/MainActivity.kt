@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
         factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ExerciseViewModel(db.exerciseDao) as T
+                    return ExerciseViewModel(db.exerciseDao, applicationContext) as T
                 }
             }
         }
